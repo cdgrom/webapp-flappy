@@ -2,28 +2,27 @@
 <html>
 
 <head>
-    <title>Chris and Alfred's Swimmy Dolphin</title>
+    <title>Chris and Alfred's Flappy Plane</title>
     <link rel="stylesheet" href="../assets/style.css" />
     <link rel="stylesheet" href="../lib/bootstrap.css" />
+
 </head>
 
 <body>
 <div class="jumbotron">
-    <h1>Chris and Alfred's Swimmy Dolphin</h1>
-    <p>Welcome to the best swimmy dolphin game there is!</p>
+    <h1>Chris and Alfred's Flappy Plane.</h1>
+    <h2>Press enter to start!</h2>
+    <p>Welcome to the best flappy plane game there is!</p>
 </div>
 <div class="container">
 
     <div class="row">
         <div class="col-xs-8">
-            <div id="game"> </div>
+            <div id="game"></div>
         </div>
         <div class="col-xs-4">
-            <h2>The highest scorers are:</h2>
-            <ul>
-                <li class="gold">Me</li>
-                <li class="score">Myself</li>
-                <li class="score">I</li>
+            <p>The highest scorers are:</p>
+            <ul id="scoreBoard">
             </ul>
             <h3>Other flappy things:</h3>
             <ul>
@@ -60,7 +59,7 @@
 
 <div id="greeting">
     <h3>Save your score</h3>
-    <form id="greeting-form" class="form-inline">
+    <form id="greeting-form" method="post" action="/score">
         <div class="form-group">
             <label for="fullName">What's your name?</label>
             <input type="text" id="fullName"
@@ -75,11 +74,13 @@
                    name="score" value="0">
         </div>
         <button class="btn btn-default" type="submit">OK</button>
+        <button class="btn btn-default" type="close">Close</button>
     </form>
 </div>
 <script src="../lib/jquery.js"></script>
 <script src="../lib/phaser.min.js"></script>
-<script src="../js/dolphin.js"></script>
+<script src="../js/plane.js"></script>
+
 </body>
 
 </html>

@@ -46,7 +46,7 @@ jQuery("#greeting-form").on("submit", function(event_details) {
 // Loads all resources for the game and gives them names.
 function preload() {
     // make image file available to game and associate with alias playerImg
-    game.load.image("playerImg", "../assets/flappy.png");
+    game.load.image("playerImg", "../assets/plane.gif");
     // make sound file available to game and associate with alias score
     game.load.audio("score", "../assets/point.ogg");
     // make image file available to game and associate with alias pipe
@@ -69,16 +69,15 @@ function create() {
         {font: "30px Arial", fill: "#000000"});
     // initialise the player and associate it with playerImg
     player = game.add.sprite(80, 200, "playerImg");
-    // player.scale.setTo(0.25, 0.25);
+    player.scale.setTo(0.25, 0.25);
     player.anchor.setTo(0.5, 0.5);
     // Start the ARCADE physics engine.
     // ARCADE is the most basic physics engine in Phaser.
     game.physics.startSystem(Phaser.Physics.ARCADE);
     // enable physics for the player sprite
     game.physics.arcade.enable(player);
-    splashDisplay = game.add.text(100,200, "Press ENTER to start, SPACEBAR to jump");
     game.input.keyboard.addKey(Phaser.Keyboard.ENTER).onDown.add(start);
-    splashDisplay.hide();
+    splashDisplay = game.add.text(100,200, "Press ENTER to start, SPACEBAR to jump");
 }
 
 // This function updates the scene. It is called for every new frame.
@@ -88,7 +87,7 @@ function update() {
         gameOver();
     }
 
-    player.rotation = Math.atan(player.body.velocity.y / gameSpeed);
+    //player.rotation = Math.atan(player.body.velocity.y / gameSpeed);
 
     // Check if the player gets a bonus
     checkBonus(balloons, -50);
@@ -117,8 +116,7 @@ function start() {
     // time loop for game to update
     game.time.events.loop(pipeInterval * Phaser.Timer.SECOND, generate);
     game.input.keyboard.addKey(Phaser.Keyboard.ENTER).onDown.remove(start);
-    //splashDisplay.hide;
-    splashDisplay = game.change.text(100,200, "pppp");
+    splashDisplay.hide();
 }
 
 function checkBonus(bonusArray, bonusEffect) {
@@ -131,7 +129,6 @@ function checkBonus(bonusArray, bonusEffect) {
             bonusArray.splice(i,1);
             // apply the bonus effect
             changeGravity(bonusEffect);
-            score += 1;
             labelScore.setText(score.toString());
         });
     }
@@ -169,16 +166,11 @@ function generate(){
 }
 
 function generatePipe() {
-    var gapStart = game.rnd.integerInRange(50, height - 50 - pipeGap);
-
-    addPipeEnd(width-2,gapStart - 25);
-    for(var y=gapStart - 75; y>-50; y -= 50){
-        addPipeBlock(width,y);
-    }
-
-    addPipeEnd(width-2,gapStart+pipeGap+13);
-    for(var y=gapStart + pipeGap + 25; y<height; y += 50){
-        addPipeBlock(width,y);
+    var gapStart = game.rnd.integerInRange(1, 5);
+    for (var count = 0; count < 8; count++) {
+        if(count != gapStart && count != gapStart+1){
+            addPipeBlock(width, count * 50);
+        }
     }
 }
 
@@ -208,7 +200,7 @@ function playerJump() {
 }
 
 function changeScore() {
-    score = score + 0.125;
+    score = score + 1/6;
     labelScore.setText(score.toString());
 }
 
@@ -219,3 +211,13 @@ function gameOver() {
     $("#score").val(score);
     $("#greeting").show();
 }
+
+function start() {
+    // set the player's gravity
+    player.body.gravity.y = gameGravity;
+    // associate spacebar with jump function
+    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(playerJump);
+    // time loop for game to update
+    game.time.events.loop(pipeInterval * Phaser.Timer.SECOND, generate);
+}
+
