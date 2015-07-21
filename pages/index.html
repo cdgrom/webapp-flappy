@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chris and Alfred's Flappy Bird</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+    <link rel="stylesheet" href="../lib/bootstrap.css" />
+</head>
+
+<body>
+<div class="jumbotron">
+    <h1>Chris and Alfred's Flappy Bird.</h1>
+    <p>Welcome to the best flappy bird game there is!</p>
+</div>
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-8">
+            <div id="game"> </div>
+        </div>
+        <div class="col-xs-4">
+            <p>The highest scorers are:</p>
+            <ul>
+                <li class="gold">Me</li>
+                <li class="score">Myself</li>
+                <li class="score">I</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="../assets/screenshotStart.png"
+                 class="img-thumbnail img-responsive" />
+        </div>
+        <div class="col-md-4">
+            <img src="../assets/screenshot.png"
+                 class="img-thumbnail img-responsive" />
+        </div>
+        <div class="col-md-4">
+            <img src="../assets/screenshotOver.png"
+                 class="img-thumbnail img-responsive" />
+        </div>
+    </div>
+</div>
+
+<div id="greeting">
+    <h3>Save your score</h3>
+    <form id="greeting-form" class="form-inline">
+        <div class="form-group">
+            <label for="fullName">What's your name?</label>
+            <input type="text" id="fullName"
+                   name="fullName" class="form-control" placeholder="Bob">
+
+            <label for="email">What's your email?</label>
+            <input type="email" id="email"
+                   name="email" class="form-control"
+                   placeholder="bob@email.com">
+
+            <input type="hidden" id="score"
+                   name="score" value="0">
+        </div>
+        <button class="btn btn-default" type="submit">OK</button>
+    </form>
+</div>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/phaser.min.js"></script>
+<script src="../js/flappy.js"></script>
+</body>
+
+</html>
