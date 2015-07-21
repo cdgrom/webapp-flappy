@@ -13,7 +13,7 @@ var player;
 // Global pipes variable initialised to the empty array.
 var pipes = [];
 // the interval (in seconds) at which new pipe columns are spawned
-var gameGravity = 500;
+var gameGravity = 450;
 var gameSpeed = 200;
 var jumpPower = 200;
 var pipeInterval = 1.75;
@@ -21,7 +21,9 @@ var pipeGap = 100;
 var balloons = [];
 var weights = [];
 var pipeWidth=50;
-var bonusWidth=50;
+var splashDisplay;
+
+
 
 // Loads all resources for the game and gives them names.
 function preload() {
@@ -43,34 +45,27 @@ function preload() {
 function create() {
     // set the background colour of the scene
     game.stage.setBackgroundColor("#F3D3A3");
-    game.add.sprite(0,0, "background");
-    // add welcome text
-    game.add.text(20, 20, "...",
-        {font: "30px Arial", fill: "#000000"});
+    game.add.sprite(0, 0, "background");
     // add score text
-    labelScore = game.add.text(20, 60, "0",
+    labelScore = game.add.text(20, 20, "0",
         {font: "30px Arial", fill: "#000000"});
     // initialise the player and associate it with playerImg
     player = game.add.sprite(80, 200, "playerImg");
-   // player.scale.setTo(0.25, 0.25);
+    // player.scale.setTo(0.25, 0.25);
     player.anchor.setTo(0.5, 0.5);
     // Start the ARCADE physics engine.
     // ARCADE is the most basic physics engine in Phaser.
     game.physics.startSystem(Phaser.Physics.ARCADE);
     // enable physics for the player sprite
     game.physics.arcade.enable(player);
-    // set the player's gravity
-    player.body.gravity.y = gameGravity;
-    // associate spacebar with jump function
-    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(playerJump);
-    // time loop for game to update
-    game.time.events.loop(pipeInterval * Phaser.Timer.SECOND, generate);
+    game.input.keyboard.addKey(Phaser.Keyboard.ENTER).onDown.add(start);
+    splashDisplay = game.add.text(100,200, "Press ENTER to start, SPACEBAR to jump");
 }
 
 // This function updates the scene. It is called for every new frame.
 function update() {
     game.physics.arcade.overlap(player, pipes, gameOver);
-    if(0 > player.body.y || player.body.y > width){
+    if(0 > player.body.y || player.body.y > height){
         gameOver();
     }
 
@@ -92,6 +87,17 @@ function update() {
     game.physics.arcade.overlap(player, pipes, gameOver);
 }
 
+function start() {
+    // set the player's gravity
+    player.body.gravity.y = gameGravity;
+    // associate spacebar with jump function
+    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(playerJump);
+    // time loop for game to update
+    game.time.events.loop(pipeInterval * Phaser.Timer.SECOND, generate);
+    game.input.keyboard.addKey(Phaser.Keyboard.ENTER).onDown.remove(start);
+    splashDisplay.hide();
+}
+
 function checkBonus(bonusArray, bonusEffect) {
     // Step backwards in the array to avoid index errors from splice
     for(var i=bonusArray.length - 1; i>=0; i--){
@@ -102,6 +108,8 @@ function checkBonus(bonusArray, bonusEffect) {
             bonusArray.splice(i,1);
             // apply the bonus effect
             changeGravity(bonusEffect);
+            score += 1;
+            labelScore.setText(score.toString());
         });
     }
 }
@@ -180,10 +188,22 @@ function playerJump() {
 function changeScore() {
     score = score + 0.125;
     labelScore.setText(score.toString());
+    if (score%1 != 0) {
+        Math.round(score);
+    }
 }
 
 function gameOver() {
     score = 0;
-    gameGravity = 200;
+    gameGravity = 450;
     game.state.restart();
+}
+
+function start() {
+    // set the player's gravity
+    player.body.gravity.y = gameGravity;
+    // associate spacebar with jump function
+    game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(playerJump);
+    // time loop for game to update
+    game.time.events.loop(pipeInterval * Phaser.Timer.SECOND, generate);
 }
