@@ -23,7 +23,25 @@ var weights = [];
 var pipeWidth=50;
 var splashDisplay;
 
+$.get("/score", function(data){
+    var scores = JSON.parse(data);
+    for (var i = 0; i < scores.length; i++) {
+        $("#scoreBoard").append("<li>" + scores[i].name + ": " +
+        scores[i].score + "</li>");
+    }
+});
 
+/*
+jQuery("#greeting-form").on("submit", function(event_details) {
+    var greeting = "Hello ";
+    var name = jQuery("#fullName").val();
+    var greeting_message = greeting + name;
+    jQuery("#greeting-form").hide();
+    jQuery("#greeting").append("<p>" + greeting_message + " (" +
+    jQuery("#email").val() + "): " + jQuery("#score").val() + "</p>");
+    $("#greeting").hide();
+});
+*/
 
 // Loads all resources for the game and gives them names.
 function preload() {
@@ -197,6 +215,8 @@ function gameOver() {
     score = 0;
     gameGravity = 450;
     game.state.restart();
+    $("#score").val(score);
+    $("#greeting").show();
 }
 
 function start() {
@@ -207,3 +227,4 @@ function start() {
     // time loop for game to update
     game.time.events.loop(pipeInterval * Phaser.Timer.SECOND, generate);
 }
+

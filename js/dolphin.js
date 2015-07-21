@@ -33,7 +33,7 @@ function preload() {
     game.load.image("pipeEnd","../assets/pipe2-end.png");
     // make image file available to game and associate with alias BG (background)
     game.load.image("background","../assets/SEA.png");
-    game.load.image("balloons","../assets/balloons.png");
+    game.load.image("balloons","../assets/seaweed.png");
     game.load.image("weight","../assets/weight.png");
     game.load.image("star","..assets/star.png")
 }
